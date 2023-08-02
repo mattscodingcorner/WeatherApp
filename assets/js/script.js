@@ -17,6 +17,8 @@ function fetchWeatherData(cityName) {
         //process the weather data to the console
         console.log("Weather data:", data);
         displayWeatherData(data);
+        saveSearchedCity(cityName);
+        displaySearchedCities();
     })
     .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -54,6 +56,32 @@ function displayWeatherData(data) {
     }
 }
 
+//save the searched city to the local client-side storage
+function saveSearchedCity(cityName) {
+    const searchedCities = JSON.parse(localStorage.getItem("searchedCities")) || [];
+    if (!searchedCities.includes(cityName)) {
+        searchedCities.push(cityName);
+        localStorage.setItem("searchedCities", JSON.stringify(searchedCities));
+    }
+}
+
+//display searched cities on the page 
+function displaySearchedCities() {
+    const searchedCitesDiv = document.getElementById("searchedCities");
+    const searchedCites = JSON.parse(localStorage.getItem("searchedCities")) || [];
+
+    //clear previous data
+    searchedCitesDiv.innerHTML = "";
+
+    //display each searched city
+    searchedCites.forEach(city => {
+        const cityDiv = document.createElement("div");
+        cityDiv.textContent = city;
+        searchedCitesDiv.appendChild(cityDiv);
+        city
+    })
+}
+
     //event listener to the form submission 
     document.getElementById("searchForm").addEventListener("submit", function (event) {
         event.preventDefault();
@@ -61,4 +89,6 @@ function displayWeatherData(data) {
         fetchWeatherData(cityName);
     });
 
+    //call displaySearchedCities on page load
+    displaySearchedCities();
 });
