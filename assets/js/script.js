@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+        //call displaySearchedCities on page load
+        displaySearchedCities();
+
 // Function to fetch weather data
 function fetchWeatherData(cityName) {
     const weatherApikey = "51f615dbed5fbc27f3137d2ba941cf4a";
@@ -106,7 +109,4 @@ function displaySearchedCities() {
         const cityName = document.getElementById("cityInput").value;
         fetchWeatherData(cityName);
     });
-
-    //call displaySearchedCities on page load
-    displaySearchedCities();
 });
