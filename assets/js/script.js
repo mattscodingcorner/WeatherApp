@@ -34,25 +34,39 @@ function kelvinToFahrenheit(kelvin) {
 function displayWeatherData(data) {
     const weatherDataDiv = document.getElementById("weatherData");
     weatherDataDiv.innerHTML = "";
+
+    const forecastsByDay = {};
+
     for (let i = 0; i < data.list.length; i++) {
-        const forcast = data.list[i];
-        const forcastDate = new Date(forcast.dt * 1000); 
-        const temperatureKelvin = forcast.main.temp;
+        const forecast = data.list[i];
+        const forecastDate = new Date(forecast.dt * 1000); 
+        const dateKey = forecastDate.toDateString();
+
+        // skip if the forecast for this day has already been displayed
+        if (forecastsByDay[dateKey]) {
+            continue;
+        }
+
+        
+        const temperatureKelvin = forecast.main.temp;
         const temperatureFahrenheit = kelvinToFahrenheit(temperatureKelvin).toFixed(2);//Convert to Fahrenheit
-        const description = forcast.weather[0].description
+        const description = forecast.weather[0].description
 
         //create HTML elements to display forcast data
-        const forcastDiv = document.createElement("div");
-        forcastDiv.classList.add("forcast-item");
-        forcastDiv.innerHTML = `
-        <h3>Date: ${forcastDate.toDateString()}</h3>
-        <p>Time: ${forcastDate.toTimeString()}</p>
+        const forecastDiv = document.createElement("div");
+        forecastDiv.classList.add("forecast-item");
+        forecastDiv.innerHTML = `
+        <h3>Date: ${forecastDate.toDateString()}</h3>
+        <p>Time: ${forecastDate.toTimeString()}</p>
         <p>Temperature: ${temperatureFahrenheit} °F</p>
         <p>Weather: ${description}</p>
         `;
 
         //append forecast data to weatherDataDiv
-        weatherDataDiv.appendChild(forcastDiv);
+        weatherDataDiv.appendChild(forecastDiv);
+
+        //store this day's forecast in the forecastsByDay object
+        forecastsByDay[dateKey] = true;
     }
 }
 
