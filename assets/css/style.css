@@ -1,3 +1,17 @@
-.searched cities {
-    
+/* Define the custom CSS class for the purple button */
+.btn-purple {
+    background-color: purple;
+    color: white;
+}
+
+/* Optional: Customize the button appearance on hover and focus */
+.btn-purple:hover, .btn-purple:focus {
+    background-color: darkpurple;
+    color: white;
+    border-color: purple;
+}
+.header {
+    background-color: purple;
+    color: white;
+    text-align: center;
 }
