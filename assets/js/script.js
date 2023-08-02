@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-// JavaScript to fetch weather data 
-const apiKey = "51f615dbed5fbc27f3137d2ba941cf4a";
 
 // Function to fetch weather data
 function fetchWeatherData(cityName) {
-    const apiUrl = 'https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={51f615dbed5fbc27f3137d2ba941cf4a}';
+    const weatherApikey = "51f615dbed5fbc27f3137d2ba941cf4a";
+    const weatherApi = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${weatherApikey}`;
 
     //making the API request using fetch()
-    fetch(apiUrl)
+    fetch(weatherApi)
     .then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -17,6 +16,7 @@ function fetchWeatherData(cityName) {
     .then((data) => {
         //process the weather data to the console
         console.log("Weather data:", data);
+        displayWeatherData(data);
     })
     .catch((error) => {
         console.error("Error fetching weather data:", error);
@@ -26,11 +26,25 @@ function fetchWeatherData(cityName) {
 //display weather data on the page
 function displayWeatherData(data) {
     const weatherDataDiv = document.getElementById("weatherData");
-    weatherDataDiv.innerHTML = `
-    <h2>Weather Forcast for ${data.city.name}</h2>
-    <p>Teamperature: ${data.list[0].main.temp} K</p>
-    <p>Weather: ${data.list[0].weather[0].description}</p>
-`;
+    weatherDataDiv.innerHTML = "";
+    for (let i = 0; i < data.list.length; i++) {
+        const forcast = data.list[i];
+        const forcastDate = new Date(forcast.dt * 1000); 
+        const temperature = forcast.main.temp;
+        const description = forcast.weather[0].description
+        //create HTML elements to display forcast data
+        const forcastDiv = document.createElement("div");
+        forcastDiv.classList.add("forcast-item");
+        forcastDiv.innerHTML = `
+        <h3>Date: ${forcastDate.toDateString()}</h3>
+        <p>Time: ${forcastDate.toTimeString()}</p>
+        <p>Temperature: ${temperature} K</p>
+        <p>Weather: ${description}</p>
+        `;
+
+        //append forecast data to weatherDataDiv
+        weatherDataDiv.appendChild(forcastDiv);
+    }
 }
 
     //event listener to the form submission 
