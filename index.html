@@ -13,19 +13,22 @@
     <h1 class="header">Weather Dashboard</h1>
     
         <div class="container mt-4">
+            <div class="row justify-content-center">
             <div class="col-md-4 top-0 start-0 p-3">
                 <form id="searchForm">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for a City" id="cityInput">
                         <button class="btn btn-purple" type="submit">Search</button>
-                            <!--display searched cities-->
-                        <div class="row justify-content-center mt-4" id="searchedCities"></div>
+                         
                     </div>
                 </form>
             </div>
         </div>
+        <!--display searched cities-->
+        <div class="row justify-content-center" id="searchedCities"></div>
         <!--display weather data here-->
         <div class="row justify-content-center mt-4" id="weatherData"></div>
+        </div>
     <script src="assets/js/script.js"></script>
 </body>
 </html>
