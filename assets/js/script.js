@@ -54,12 +54,16 @@ function displayWeatherData(data) {
 
         //create HTML elements to display forcast data
         const forecastDiv = document.createElement("div");
-        forecastDiv.classList.add("forecast-item");
+        forecastDiv.classList.add("col-sm-4", "forecast-item");
         forecastDiv.innerHTML = `
-        <h3>Date: ${forecastDate.toDateString()}</h3>
+        <div class="card">
+        <div class="card-body">
+        <h3 class="card-title">Date: ${forecastDate.toDateString()}</h3>
         <p>Time: ${forecastDate.toTimeString()}</p>
         <p>Temperature: ${temperatureFahrenheit} °F</p>
         <p>Weather: ${description}</p>
+        </div>
+        </div>
         `;
 
         //append forecast data to weatherDataDiv
