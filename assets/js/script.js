@@ -23,6 +23,11 @@ function fetchWeatherData(cityName) {
     });
 }
 
+// Convert Kelvin to Fahrenheit
+function kelvinToFahrenheit(kelvin) {
+    return (kelvin - 273.15) * 9 / 5 + 32;
+}
+
 //display weather data on the page
 function displayWeatherData(data) {
     const weatherDataDiv = document.getElementById("weatherData");
@@ -30,15 +35,17 @@ function displayWeatherData(data) {
     for (let i = 0; i < data.list.length; i++) {
         const forcast = data.list[i];
         const forcastDate = new Date(forcast.dt * 1000); 
-        const temperature = forcast.main.temp;
+        const temperatureKelvin = forcast.main.temp;
+        const temperatureFahrenheit = kelvinToFahrenheit(temperatureKelvin).toFixed(2);//Convert to Fahrenheit
         const description = forcast.weather[0].description
+
         //create HTML elements to display forcast data
         const forcastDiv = document.createElement("div");
         forcastDiv.classList.add("forcast-item");
         forcastDiv.innerHTML = `
         <h3>Date: ${forcastDate.toDateString()}</h3>
         <p>Time: ${forcastDate.toTimeString()}</p>
-        <p>Temperature: ${temperature} K</p>
+        <p>Temperature: ${temperatureFahrenheit} °F</p>
         <p>Weather: ${description}</p>
         `;
 
