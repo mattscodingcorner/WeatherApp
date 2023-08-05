@@ -50,7 +50,7 @@ function displayWeatherData(data) {
             continue;
         }
 
-        
+        const windSpeed = forecast.wind.speed.toFixed(2);
         const temperatureKelvin = forecast.main.temp;
         const temperatureFahrenheit = kelvinToFahrenheit(temperatureKelvin).toFixed(2);//Convert to Fahrenheit
         const description = forecast.weather[0].description
@@ -62,7 +62,7 @@ function displayWeatherData(data) {
         <div class="card">
         <div class="card-body">
         <h3 class="card-title">Date: ${forecastDate.toDateString()}</h3>
-        <p>Time: ${forecastDate.toTimeString()}</p>
+        <p>Wind: ${windSpeed} MPH</p>
         <p>Temperature: ${temperatureFahrenheit} °F</p>
         <p>Weather: ${description}</p>
         </div>
