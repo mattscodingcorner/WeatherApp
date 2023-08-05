@@ -54,6 +54,7 @@ function displayWeatherData(data) {
         const temperatureKelvin = forecast.main.temp;
         const temperatureFahrenheit = kelvinToFahrenheit(temperatureKelvin).toFixed(2);//Convert to Fahrenheit
         const description = forecast.weather[0].description
+        const weatherIcon = `http://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`;
 
         //create HTML elements to display forcast data
         const forecastDiv = document.createElement("div");
@@ -62,6 +63,7 @@ function displayWeatherData(data) {
         <div class="card">
         <div class="card-body">
         <h3 class="card-title">Date: ${forecastDate.toDateString()}</h3>
+        <img src="${weatherIcon}" alt="Weather Icon">
         <p>Wind: ${windSpeed} MPH</p>
         <p>Temperature: ${temperatureFahrenheit} °F</p>
         <p>Weather: ${description}</p>
