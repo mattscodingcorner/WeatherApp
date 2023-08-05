@@ -21,12 +21,20 @@ function fetchWeatherData(cityName) {
         console.log("Weather data:", data);
         displayWeatherData(data);
         saveSearchedCity(cityName);
-        displaySearchedCities();
+
     })
     .catch((error) => {
         console.error("Error fetching weather data:", error);
     });
 }
+
+    function saveSearchedCity(cityName) {
+        const searchedCites = JSON.parse(localStorage.getItem("searchedCities")) || [];
+        if (!searchedCites.includes(cityName)) {
+            searchedCites.push(cityName);
+            localStorage.setItem("searchedCities", JSON.stringify(searchedCites));
+        }
+    }
 
 // Convert Kelvin to Fahrenheit
 function kelvinToFahrenheit(kelvin) {
@@ -120,27 +128,32 @@ function saveSearchedCity(cityName) {
     }
 }
 
-//display searched cities on the page 
-function displaySearchedCities() {
-    const searchedCitesDiv = document.getElementById("searchedCities");
-    const searchedCites = JSON.parse(localStorage.getItem("searchedCities")) || [];
+    //display searched cities on the page 
+    function displaySearchedCities() {
+        const searchedCitesDiv = document.getElementById("searchedCities");
+        const searchedCites = JSON.parse(localStorage.getItem("searchedCities")) || [];
 
-    //clear previous data
-    searchedCitesDiv.innerHTML = "";
+        //clear previous data
+        searchedCitesDiv.innerHTML = "";
 
-    //display each searched city
-    searchedCites.forEach(city => {
-        const cityDiv = document.createElement("div");
-        cityDiv.textContent = city;
-        searchedCitesDiv.appendChild(cityDiv);
-        city
-    })
-}
+        //display each searched city as a clickable element
+        searchedCites.forEach(city => {
+            const cityLink = document.createElement("a");
+            cityLink.textContent = city;
+            cityLink.href = "#"; //add a placeholder href to make it clickable
+            cityLink.addEventListener("click", function (event) {
+                event.preventDefault();
+                fetchWeatherData(city); //call the fetchWeatherdata function to search clicked city again
+            });
+            searchedCitesDiv.appendChild(cityLink);
+        });
 
-    //event listener to the form submission 
-    document.getElementById("searchForm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        const cityName = document.getElementById("cityInput").value;
-        fetchWeatherData(cityName);
-    });
+        //event listener to the form submission 
+        document.getElementById("searchForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const cityName = document.getElementById("cityInput").value;
+            fetchWeatherData(cityName);
+        });
+    }
+
 });
